@@ -7,16 +7,15 @@ class NameInput extends React.Component {
     }
 
     handleChange(event) {
-        this.props.onNameChange(event.target.value);
+        this.props.onValueChange(event.target.value);
     }
 
+
     render() {
-        const name = this.props.name;
+        const value = this.props.value;
         return (
-            <label>
-                Name:
-                <input type="text" value={name} onChange={this.handleChange} />
-            </label>
+                    <input type="text" value={value} onChange={this.handleChange} />
+               
             
 
         )
