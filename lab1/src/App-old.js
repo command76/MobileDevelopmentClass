@@ -8,10 +8,12 @@ class App extends Component {
     super(props)
     this.setValid = this.setValid.bind(this);
     this.state = {isValid:true};
+
     }
     setValid(value) {
         this.setState({isValid:value});
-           console.log("getting input!");     
+        console.log("getting input!");
+        
     }
     render() {
         // let arr = [];
@@ -23,11 +25,10 @@ class App extends Component {
                 
                 </div>);
     } else {
-        const className = this.state.isValid ? "d-none" : "error-text";
         return(
             <div>
             <NameForm setValid={this.setValid} />
-        <div id="error" className={className}>You made an Error!</div>
+        <div id="error" ref="error" className="error-text">You made an Error!</div>
         </div> );
     }
             

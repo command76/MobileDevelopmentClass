@@ -3,7 +3,12 @@ import React, { Component } from 'react';
 class NameForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: '', nameAvailable:false, isValid: true, setValid:props.setValid};
+    this.state = {
+      value: '', 
+      nameAvailable:false, 
+      isValid: true, 
+      setValid:props.setValid
+  };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -12,14 +17,16 @@ class NameForm extends React.Component {
   handleChange(event) {
     this.setState({value: event.target.value});
   }
-
   handleSubmit(event) {
+    const test = /[^a-zA-Z]+/;
     event.preventDefault();
+   
     //alert('A name was submitted: ' + this.state.value);
-    if(/[a-zA-Z]+/.test(this.state.value)) {
-    this.setState({nameAvailable:true});
+    if(test.test(this.state.value)) {
+      this.state.setValid(false);
     } else {
-      this.setState({isValid:false});
+      this.setState({nameAvailable:true});
+      this.setState({isValid:true});
       console.log("false");
     }
 
@@ -39,7 +46,7 @@ class NameForm extends React.Component {
       </form>);
       return returnArray;
     } else {
-    return (<div>Good morning! {this.state.value}</div>);
+    return (<div>Welcome to the Show!  I hope you enjoy it {this.state.value}</div>);
   }
 }
 }
