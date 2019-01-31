@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Button } from 'react-native';
 // import NameForm from './NameForm';
 
 class NameForm extends React.Component {
@@ -14,34 +15,39 @@ class NameForm extends React.Component {
     this.onPress = this.onPress.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-  onChange(event) {
-    console.log(event);
-    this.setState({value: event.target.value});
+  onChange(text) {
+    console.log(text);
+    this.setState({value: text});
   }
   
   onPress(event) {
     console.log("Pressed");
     event.preventDefault();
     if(/[^a-zA-Z]+/.test(this.state.value)) {
-      this.state.setValid(false);
-      console.log("false");
+      //this.setState({setValid:false});
+      // console.log(this.state.isValid);
+      this.state.setValid({setValid:false});
+      //console.log(this.state.setValid);
+      // console.log(this.state.setValid);
     } else {
       this.setState({nameAvailable:true});
       this.setState({isValid:true});
-      console.log("we're in there");
+      console.log(this.props)
+      console.log(this.state.value);
     }
   }
   render() {
+    const value = this.state.value;
     if(!this.state.nameAvailable) {
-      return(
+      return (
         <View>
-          <TextInput style={styles.textInput} value={this.state.value} onChange={this.onChange} placeholder="Enter your name"></TextInput>
+          <TextInput style={styles.textInput} value={value} onChangeText={this.onChange} placeholder="Enter your name"></TextInput>
           <TouchableOpacity style={styles.buttonStyle} onPress={this.onPress}><Text style={styles.buttonText}>Submit</Text></TouchableOpacity>
         </View>
       );
     } else {
       return (
-      <View><Text>Welcome and enjoy the show! {this.state.value}</Text></View>
+      <View><Text style={styles.successText}>Welcome and enjoy the show! {this.state.value}</Text></View>
       );
     }
   }
@@ -54,22 +60,25 @@ export default class App extends React.Component {
     this.state = {isValid:true};
   }
   setValid(value) {
-    this.setState({isValid:value});
-       console.log("getting input!");     
+    this.setState({isValid:value}); 
+       console.log("getting input!"); 
+       console.log(this.setValid.value)
+       console.log(this.state.isValid);
+       //console.log(this.state.setValid)
+          
   }
 
   render() {
-    
-    if(this.state.isValid) {
+    if(this.state.isValid == true) {
       return (
-      <View style={styles.container} flexDirection="column" alignItems='stretch'>
+      <View style={styles.container} flexDirection="column" alignItems='center'>
         <View><NameForm setValid={this.setValid}></NameForm></View>
         {/* {!this.state.isValid ? (<Text style={styles.defaultText}>Error!</Text>) : null} */}
       </View>
       );
-    } else {
+     } else {
       return (
-        <View><Text style={styles.defaultText}>Error!</Text></View>
+        <View style={styles.container} alignItems="center"><Text style={styles.defaultText}>Error! You entered none alphabetical characters!</Text></View>
       );
       
     }
@@ -90,6 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor:'blue',
     height:75,
     margin:30,
+    width:250
   },
   textInput:
   {
@@ -99,7 +109,12 @@ const styles = StyleSheet.create({
   },
   defaultText:
   {
-    fontSize:20
+    fontSize:40,
+    color:'red'
+  },
+  successText:
+  {
+    fontSize:30
   },
   container: {
     flex: 1,
