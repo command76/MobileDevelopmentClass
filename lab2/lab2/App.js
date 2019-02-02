@@ -47,7 +47,9 @@ class NameForm extends React.Component {
       );
     } else {
       return (
-      <View><Text style={styles.successText}>Welcome and enjoy the show! {this.state.value}</Text></View>
+      <View>
+        <Text style={styles.successText}>Welcome and enjoy the show! {this.state.value}</Text>
+      </View>
       );
     }
   }
@@ -69,19 +71,19 @@ export default class App extends React.Component {
   }
 
   render() {
-    if(this.state.isValid == true) {
+    if(this.state.isValid) {
       return (
       <View style={styles.container} flexDirection="column" alignItems='center'>
         <View><NameForm setValid={this.setValid}></NameForm></View>
-        {/* {!this.state.isValid ? (<Text style={styles.defaultText}>Error!</Text>) : null} */}
+        { (this.state.isValid　== true) ? null : (<Text id="error" style={styles.defaultText}>Error!</Text>)}
       </View>
       );
-     } else {
-      return (
-        <View style={styles.container} alignItems="center"><Text style={styles.defaultText}>Error! You entered none alphabetical characters!</Text></View>
-      );
+    } //else {
+    //   return (
+    //     <View style={styles.container} alignItems="center"><Text style={styles.defaultText}>Error! You entered none alphabetical characters!</Text></View>
+    //   );
       
-    }
+    // }
 
   }
 }
@@ -122,4 +124,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  dNone: 
+  {
+    display:'none'
+  }
 });
