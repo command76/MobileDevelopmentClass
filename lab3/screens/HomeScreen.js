@@ -30,11 +30,11 @@ class HomeScreen extends React.Component {
         <ImageBackground style={{width:null,height:null,flex:1,resizeMode:'cover'}} source={require('../assets/images/bg.jpg')} >
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Cats are amazing</Text>
+            {/* <Text style={styles.getStartedText}>Cats are amazing</Text> */}
             <FlatList
-             data={[{key: 'hero1',image: require('../assets/images/Superman.png')}, {key: 'hero2',image: require('../assets/images/Spiderman.png')}]}
+             data={[{key: 'Superman',image: require('../assets/images/Superman.png')}, {key: 'Spiderman',image: require('../assets/images/Spiderman.png')}, {key: 'Batman',image: require('../assets/images/Batman.png')}]}
              keyExtractor={this._keyExtractor}
-              renderItem={({item}) => <TouchableOpacity onPress={(event) => { navigate('Details', {item: event.target.value}) }}>
+              renderItem={({item}) => <TouchableOpacity onPress={(event) => { navigate('Detail', {item: item}) }}>
                 <Image source={item.image} style={{width:200,height:200}} />
               </TouchableOpacity>}
             />
