@@ -32,10 +32,12 @@ class HomeScreen extends React.Component {
           <View style={styles.getStartedContainer}>
             {/* <Text style={styles.getStartedText}>Cats are amazing</Text> */}
             <FlatList
-             data={[{key: 'Superman',image: require('../assets/images/Superman.png')}, {key: 'Spiderman',image: require('../assets/images/Spiderman.png')}, {key: 'Batman',image: require('../assets/images/Batman.png')}]}
+             data={[{key: 'Superman',image: require('../assets/images/Superman.png'),title: 'Man of Steel',author: 'DC Comics'}, {key: 'Spiderman',image: require('../assets/images/Spiderman.png'),title: 'Your friendly neighborhood Spiderman',author: 'Marvel'}, {key: 'Batman',image: require('../assets/images/Batman.png'),title: 'Dark Knight',author: 'DC Comics'}]}
              keyExtractor={this._keyExtractor}
               renderItem={({item}) => <TouchableOpacity onPress={(event) => { navigate('Detail', {item: item}) }}>
                 <Image source={item.image} style={{width:200,height:200}} />
+                <Text style={{color:'#fff', textAlign: 'center',fontSize: 20}}>{item.title}</Text>
+                <Text style={{color:'red', textAlign: 'center',fontSize: 18}}>{item.author}</Text>
               </TouchableOpacity>}
             />
           </View>

@@ -4,7 +4,7 @@ import { ScrollView,
          ImageBackground,
          StyleSheet, 
          Image,
-         FlatList, } from 'react-native';
+         Dimensions, } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 
 
@@ -21,8 +21,8 @@ export default class Detail extends React.Component {
       <View style={styles.container}>
         <ImageBackground style={{width:null,height:null,flex:1,resizeMode:'cover'}} source={require('../assets/images/bg.jpg')} >
         <ScrollView style={styles.container}>
-        {console.log(this.props.navigation)}
-          <Image source={this.props.navigation.state.params.item.image} ></Image>
+        {console.log(Dimensions.get('window').width)}
+          <Image source={this.props.navigation.state.params.item.image} style={{flex:1, width: Dimensions.get('window').width}}></Image>
          </ScrollView>
         </ImageBackground>
     </View>
