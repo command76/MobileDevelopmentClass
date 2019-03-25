@@ -10,9 +10,15 @@ import Button from "./Button";
 import Forecast from "./Forecast";
 import OpenWeatherMap from "./open_weather_map";
 import WeatherProject from "./weather_project.1";
+import { NavigationActions } from 'react-navigation';
+
+
 
 class Settings extends React.Component {
-  
+  constructor(props) {
+    super(props);
+    // this.state = { forecast: null, zipcode: null, curTime: null };
+  }
     
     checkMultiPermissions = async() => {
         const { Permissions, FileSystem } = Expo;
@@ -68,7 +74,54 @@ class Settings extends React.Component {
             }
           }
 
-         
+         _getCelsius = () => {
+          // const celsiusValue = (this.props.navigation.state.params.forecast.temp - 32) * 5/9;
+          // console.log(celsiusValue);
+          // this.setState({celsius: true});
+          // console.log(this.state.celsius);
+          // if (this.state.farenheit == true) {
+          var celsius = NavigationActions.setParams({
+            params: { forecast: {temp:(this.props.navigation.state.params.forecast.temp - 32) * 5/9, main:this.props.navigation.state.params.forecast.main}},
+            key: WeatherProject,
+          });
+
+
+          // var celsius = NavigationActions.setParams({
+          //   params: { celsius: true, farenheit: false },
+          //   key: WeatherProject,
+          // });
+
+
+          //this.setState({ forecast: celsius });
+          console.log(celsius);
+          this.props.navigation.dispatch(celsius);
+          // console.log(this.props.navigation.state.params.forecast);
+          // this.setState({farenheit: false});
+          
+          // }
+         }
+
+         _getFarenheit = () => {
+          //  const farenheitValue = (((this.props.navigation.state.params.forecast.temp * 9/5) + 32));
+          //  console.log(farenheitValue);
+
+
+          //  this.setState({ forecast: farenheit })
+          // this.setState({farenheit: true})
+          // if (this.state.celsius == true) {
+          var farenheit = NavigationActions.setParams({
+            params: { forecast: {temp:((this.props.navigation.state.params.forecast.temp * 9/5) + 32), main:this.props.navigation.state.params.forecast.main}},
+            key: WeatherProject,
+          });
+          //this.setState({ forecast: celsius });
+          console.log(farenheit.params.forecast);
+          this.props.navigation.dispatch(farenheit);
+          // console.log(this.state.forecast);
+          // console.log(this.props.navigation.state.params.forecast);
+          //  console.log(this.props.navigation.state.params.forecast);
+          // this.setState({celsius: false});
+          // }
+        }
 
     render() { 
       
@@ -78,10 +131,10 @@ class Settings extends React.Component {
                 <Button onPress={this.checkMultiPermissions} label="Choose Image"></Button>
             </View>
             <View style={styles.row}>
-                <Button onPress={console.log(this.props.navigation.state.params.forecast)} label="Convert to Celcius"></Button>
+                <Button onPress={this._getCelsius} label="Convert to Celsius"></Button>
             </View>
             <View style={styles.row}>
-                <Button onPress={console.log('yay')} label="Convert to Farenheit"></Button>
+                <Button onPress={this._getFarenheit} label="Convert to Farenheit"></Button>
             </View>
         </View>
     ) }
