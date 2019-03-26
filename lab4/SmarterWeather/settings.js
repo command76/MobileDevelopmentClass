@@ -141,7 +141,12 @@ class Settings extends React.Component {
           //   console.log(this.state.fahrenheit);
           // });
           _getState = () => {
-            if (fahrenheit == true) {
+            var state = 0;
+            if (fahrenheit == undefined && state == 0) {
+              var state = 1;
+              celsius = false;
+              console.log(celsius);
+            } else if (fahrenheit == true) {
               var state = 1;
               celsius = false;
               console.log(celsius);
