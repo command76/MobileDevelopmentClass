@@ -26,7 +26,7 @@ class WeatherProject extends Component {
   constructor(props) {
     super(props);
     this.state = { forecast: null, zipcode: null, curTime: null, celsius: null, farenheit: true };
-    
+
   }
   
   componentDidMount() {
@@ -108,8 +108,19 @@ class WeatherProject extends Component {
     this._getForecastForZip(zip);
   };
 
+  _getTemp = async (temp, state) => {
+    console.log(state);
+   if ( temp == "celsius" && state == 0) {
+      this.setState({forecast: {temp:((this.state.forecast.temp - 32) * 5/9).toFixed(2), main:this.state.forecast.main}})
+
+    }
+    else if ( temp == 'fahrenheit' && state == 0) {
+      this.setState({forecast: {temp:((this.state.forecast.temp * 9/5) + 32).toFixed(2), main:this.state.forecast.main}});
+    }
+  }
+
   _showMoreApp = () => {
-    this.props.navigation.navigate('Settings', { forecast : this.state.forecast, celsius: this.state.celsius, farenheit: this.state.farenheit });
+    this.props.navigation.navigate('Settings', { forecast : this.state.forecast, celsius: false, fahrenheit: true, getTemp: this._getTemp });
   };
 
   
