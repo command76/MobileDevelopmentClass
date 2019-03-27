@@ -70,9 +70,14 @@ class Settings extends React.Component {
                 } catch (error) {
                   // Error saving data
                 }
-                this.setState({photos: [FileSystem.documentDirectory+"myimage"+n+".jpg"]});
-                console.log(this.state.photos[n]);
-                this.props.navigation.state.params.getPhoto(n, photos[n]);                // return photos;
+                this.state.photos[n] = FileSystem.documentDirectory+"myimage"+n+".jpg";
+                // this.setState({photos: [FileSystem.documentDirectory+"myimage"+n+".jpg"]});                // this.state.photo[n] = FileSystem.documentDirectory+"myimage"+n+".jpg";
+                let myPhoto = this.state.photos;
+                
+                // myPhoto.push(this.state.photos[n]);
+                this.setState({photos:myPhoto});
+                console.log(myPhoto);
+                this.props.navigation.state.params.getPhoto(n, myPhoto[n]);  
               }
           }
           

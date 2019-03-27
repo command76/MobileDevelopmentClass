@@ -58,20 +58,12 @@ class WeatherProject extends Component {
         })
       },1000);
 
+
+      
+
   }
 
-
-
-
-
- 
   
-
-
-
-
-
-
 
   componentWillUnmount() {
     clearInterval(this.myInterval);
@@ -120,16 +112,21 @@ class WeatherProject extends Component {
     }
   }
 
-  _getPhoto = ( n, photo ) => {
-    console.log(n);
-    console.log(photo);
-  }
+  
+  
 
   _showMoreApp = () => {
     this.props.navigation.navigate('Settings', { forecast : this.state.forecast, celsius: false, fahrenheit: true, getTemp: this._getTemp, getPhoto: this._getPhoto });
   };
 
   
+  _getPhoto = async ( n, photo ) => {
+    setInterval( () => {
+      // console.log('hello' + n);
+      // console.log("this is it:" + photo);
+      this.setState({newPostImage: photo});
+      
+    }, 10000)};
 
 
  
