@@ -1,3 +1,4 @@
+// type open -a simulator to run simulator then type expo start or npm start to run expo in simulator
 import React, { Component } from "react";
 import {
   StyleSheet,
@@ -119,8 +120,13 @@ class WeatherProject extends Component {
     }
   }
 
+  _getPhoto = ( n, photo ) => {
+    console.log(n);
+    console.log(photo);
+  }
+
   _showMoreApp = () => {
-    this.props.navigation.navigate('Settings', { forecast : this.state.forecast, celsius: false, fahrenheit: true, getTemp: this._getTemp });
+    this.props.navigation.navigate('Settings', { forecast : this.state.forecast, celsius: false, fahrenheit: true, getTemp: this._getTemp, getPhoto: this._getPhoto });
   };
 
   

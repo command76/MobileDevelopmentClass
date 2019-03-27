@@ -11,18 +11,27 @@ import Forecast from "./Forecast";
 import OpenWeatherMap from "./open_weather_map";
 import WeatherProject from "./weather_project.1";
 import { NavigationActions } from 'react-navigation';
+import PhotoBackdrop from './PhotoBackdrop/local_image';
+
 
 var celsius;
 var fahrenheit;
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { celsius: false, fahrenheit: null };
+    this.state = { celsius: false, fahrenheit: null, photos: [], id: 0 };
 
     // this.state = { forecast: null, zipcode: null, curTime: null };
   }
     
     checkMultiPermissions = async() => {
+      const photos = this.state.photos;
+      const n = this.state.id;
+      if ( n == 4 ) {
+        this.setState({ id: 0 });
+      }
+
+      // console.log(photos[0]);
         const { Permissions, FileSystem } = Expo;
         console.log(FileSystem.documentDirectory);
         let { status, expires, permissions } = await Permissions.getAsync(Permissions.CAMERA_ROLL)
@@ -38,11 +47,18 @@ class Settings extends React.Component {
             })
     
             console.log(result);
+            
               if (!result.cancelled) {
+
+                this.setState(prevState => ({
+                  id: prevState.id + 1
+                }));
+                console.log(n);
+
                 console.log(this);
                 console.log("Accepted!");
                 this.setState({ newPostImage:result.uri, createPostModalVisible: true })
-                FileSystem.copyAsync({from:result.uri,to:FileSystem.documentDirectory+"myimage.jpg"})
+                FileSystem.copyAsync({from:result.uri,to:FileSystem.documentDirectory+"myimage"+n+".jpg"})
                 .then(() => console.log("Moved to location"));
                 try {
                   await AsyncStorage.setItem('@MySuperStore:key', result.uri)
@@ -54,6 +70,9 @@ class Settings extends React.Component {
                 } catch (error) {
                   // Error saving data
                 }
+                this.setState({photos: [FileSystem.documentDirectory+"myimage"+n+".jpg"]});
+                console.log(this.state.photos[n]);
+                this.props.navigation.state.params.getPhoto(n, photos[n]);                // return photos;
               }
           }
           
@@ -190,17 +209,17 @@ class Settings extends React.Component {
     render() { 
       
         return(
-        <View>
-            <View style={styles.row}>
-                <Button onPress={this.checkMultiPermissions} label="Choose Image"></Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={this._getCelsius} label="Convert to Celsius"></Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={this._getFahrenheit} label="Convert to Farenheit"></Button>
-            </View>
-        </View>
+          <View style={{backgroundColor: '#AEE8BD', flex: 1}}>
+              <View style={styles.row}>
+                  <Button onPress={this.checkMultiPermissions} label="Choose Image"></Button>
+              </View>
+              <View style={styles.row}>
+                  <Button onPress={this._getCelsius} label="Convert to Celsius"></Button>
+              </View>
+              <View style={styles.row}>
+                  <Button onPress={this._getFahrenheit} label="Convert to Farenheit"></Button>
+              </View>
+          </View>
     ) }
 
 }
