@@ -26,10 +26,16 @@ class Settings extends React.Component {
     
     checkMultiPermissions = async() => {
       const photos = this.state.photos;
+      
+      console.log(n);
       const n = this.state.id;
+      // console.log(this.state.id)
+      
+      // console.log(this.state.id);
+      // var state;
       if ( n == 4 ) {
         this.setState({ id: 0 });
-      }
+      } 
 
       // console.log(photos[0]);
         const { Permissions, FileSystem } = Expo;
@@ -49,7 +55,6 @@ class Settings extends React.Component {
             console.log(result);
             
               if (!result.cancelled) {
-
                 this.setState(prevState => ({
                   id: prevState.id + 1
                 }));

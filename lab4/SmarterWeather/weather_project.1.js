@@ -122,11 +122,13 @@ class WeatherProject extends Component {
   
   _getPhoto = async ( n, photo ) => {
     setInterval( () => {
-      // console.log('hello' + n);
+      console.log('hello' + n);
       // console.log("this is it:" + photo);
-      this.setState({newPostImage: photo});
       
-    }, 10000)};
+        this.setState({newPostImage: photo})
+      
+  }, 2000)
+  };
 
 
  
