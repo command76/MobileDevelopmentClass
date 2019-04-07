@@ -26,7 +26,7 @@ _getTask = (state, task, date, priority, taskArray) => {
     alert(this.state.createNewTask);
     this.setState({ createNewTask: state });
     this.setState({ taskHolder: taskArray })
-    // console.log(this.state.taskHolder);
+    console.log(this.state.taskHolder);
     // console.log(task);
     // console.log(date);
     // console.log(priority);
@@ -34,27 +34,33 @@ _getTask = (state, task, date, priority, taskArray) => {
 }
 
 componentDidMount() {
+    FlatListItemSeparator = () => {
+        return ( <View style={{ height: 5, backgroundColor: 'black' }} />)
+
+
+    }
     _populateTasks =() => {
-    return <FlatList
-                ItemSeparatorComponent={({highlighted}) => (
-                    <View style={[style.separator, highlighted && {marginLeft: 0}]} />
-                )}
-                data={[{title: this.state.taskHolder, key: 'item'  }]}
+    return (<FlatList
+                // ItemSeparatorComponent={({highlighted}) => (
+                //     <View style={[style.separator, highlighted && {marginLeft: 0}]} />
+                // )}
+                data={this.state.taskHolder}
                 width='100%'
-                extraData={this.state.taskHolder}
+                extraData={[this.state.taskHolder]}
                 keyExtractor={(index) => index.toString()}
                 ItemSeparatorComponent={this.FlatListItemSeparator}
-                renderItem={({item, separators}) => (
+                renderItem={({item /*, separators */}) => (
+                    
                     <TouchableHighlight
                     onPress={/*() => this._onPress(item)*/''}
-                    onShowUnderlay={separators.highlight}
-                    onHideUnderlay={separators.unhighlight}>
-                    <View style={{ backgroundColor: "pink", borderWidth: 1 }}>
-                        <Text style={{ fontSize: 30 }}>{item.title}</Text>
-                    </View>
+                    /*onShowUnderlay={separators.highlight}
+                    onHideUnderlay={separators.unhighlight} */>
+                        <View style={{ backgroundColor: "pink", borderWidth: 1, padding: 10 }}>
+                            <Text style={{ fontSize: 30 }}>{item}</Text>
+                        </View>
                     </TouchableHighlight>
                 )}
-                />;
+                />)
         }
 
 }
