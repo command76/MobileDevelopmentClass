@@ -15,7 +15,7 @@ var i = 0;
 class createTask extends Component { 
     constructor(props) {
         super(props);
-       this.state = { chosenDate: new Date(), task: null, priority: null, taskHolder: [] };
+       this.state = { chosenDate: new Date(), task: "New Task", priority: null, taskHolder: [] };
     //    this.taskArr = [];
     //    this.priorityArr = [{ priority: this.state.priority }];
     //    this.dateArr = [{ chosenDate: this.state.chosenDate }]

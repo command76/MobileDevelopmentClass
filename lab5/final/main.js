@@ -23,7 +23,7 @@ _createTask = () => {
 }
 
 _getTask = (state, task, date, priority, taskArray) => {
-    alert(this.state.createNewTask);
+    // alert(this.state.createNewTask);
     this.setState({ createNewTask: state });
     this.setState({ taskHolder: taskArray })
     console.log(this.state.taskHolder);
@@ -52,11 +52,11 @@ componentDidMount() {
                 renderItem={({item /*, separators */}) => (
                     
                     <TouchableHighlight
-                    onPress={/*() => this._onPress(item)*/''}
+                    onPress={/*() => this._onPress(item)*/this._deleteItem}
                     /*onShowUnderlay={separators.highlight}
                     onHideUnderlay={separators.unhighlight} */>
-                        <View style={{ backgroundColor: "pink", borderWidth: 1, padding: 10 }}>
-                            <Text style={{ fontSize: 30 }}>{item}</Text>
+                        <View style={{ backgroundColor: "pink", padding: 10 }}>
+                            <Text style={{ fontSize: 30 }}>- {item}</Text>
                         </View>
                     </TouchableHighlight>
                 )}
@@ -65,18 +65,35 @@ componentDidMount() {
 
 }
 
+_viewArchive = () => {
+
+    alert("Not working yet");
+
+}
+
+_deleteItem = () => {
+
+    alert("Not working yet");
+
+}
+
 render() {
     
 
     return (
-        <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'pink' }}>
-            <View style={{  alignItems: 'center', alignContent: 'center' }}>
+        <View style={{ flex: 7, flexDirection: 'column', backgroundColor: 'pink' }}>
+            <View style={{ flex: 1, alignItems: 'center', alignContent: 'center' }}>
                 <Text style={{ fontSize: 50 }}>Your Tasks</Text>
             </View>
-            <Button style={{ height: 50, padding: 25 }} onPress={this._createTask} title="Hello" ></Button>
-            <Text>Where's my button?</Text>
+            <View style={{ flex: 5 }}>
+            {/* <Text>Where's my button?</Text> */}
            
             { ( this.state.createNewTask ) ?  _populateTasks() : null }
+            </View>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                <Button style={{ height: 50, padding: 50 }} onPress={this._createTask} title="Add Task" ></Button>
+                <Button style={{ height: 50, padding: 50 }} onPress={this._viewArchive} title="View Archive" ></Button>
+            </View>
         </View>
     );
 }
