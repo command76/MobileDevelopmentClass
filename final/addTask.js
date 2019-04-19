@@ -10,12 +10,12 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
-var i = 0;
+// var i = 0;
 
 class createTask extends Component { 
     constructor(props) {
         super(props);
-       this.state = { chosenDate: new Date(), task: "New Task", priority: null, taskHolder: [] };
+       this.state = { chosenDate: new Date(), task: "New Task", priority: "high", taskHolder: [], dateArray: [], priorityArray: [], i: 0 };
     //    this.taskArr = [];
     //    this.priorityArr = [{ priority: this.state.priority }];
     //    this.dateArr = [{ chosenDate: this.state.chosenDate }]
@@ -47,10 +47,12 @@ _addTask = async () => {
     // this.taskArr.push(this.state.task);
 
         
+   
 
 
-
-    this.state.taskHolder[i] = this.state.task;
+    this.state.taskHolder[this.state.i] = this.state.task;
+    this.state.priorityArray[this.state.i] = this.state.priority;
+    this.state.dateArray[this.state.i] = this.state.chosenDate.toString();
     // console.log(this.state.taskHolder)
     // console.log(this.taskArr);
 
@@ -76,14 +78,21 @@ _addTask = async () => {
 //     }
     
     if ( this.props.navigation.state.params.taskHolder != undefined ) {
-        console.log(this.props.navigation.state.params.taskHolder);
-        this.props.navigation.state.params.taskHolder[i] = this.state.task;
-        this.props.navigation.navigate("Home", { taskHolder: this.state.taskHolder, chosenDate: this.state.chosenDate, priority: this.state.priority, i: i });
-        this.props.navigation.state.params.getTask( true, this.state.task, this.state.chosenDate, this.state.priority, this.props.navigation.state.params.taskHolder );
+        // console.log(this.props.navigation.state.params.taskHolder);
+        // console.log(this.props.navigation.state.params.dateArray);
+        // console.log(this.props.navigation.state.params.priorityArray);
+        this.props.navigation.state.params.i = this.props.navigation.state.params.i + 1;
+        console.log(this.props.navigation.state.params.i);
+        this.props.navigation.state.params.taskHolder[this.props.navigation.state.params.i] = this.state.task;
+        this.props.navigation.state.params.priorityArray[this.props.navigation.state.params.i] = this.state.priority;
+        this.props.navigation.state.params.dateArray[this.props.navigation.state.params.i] = this.state.chosenDate;
+        this.props.navigation.navigate("Home", { taskHolder: this.state.taskHolder, i: this.state.i, dateArray: this.state.dateArray, priorityArray: this.state.priorityArray });
+        this.props.navigation.state.params.getTask( true, this.state.task, this.props.navigation.state.params.dateArray, this.props.navigation.state.params.priorityArray, this.props.navigation.state.params.taskHolder, this.props.navigation.state.params.i );
 
     } else {
-        this.props.navigation.navigate("Home", { taskHolder: this.state.taskHolder, chosenDate: this.state.chosenDate, priority: this.state.priority, i: i });
-        this.props.navigation.state.params.getTask( true, this.state.task, this.state.chosenDate, this.state.priority, this.state.taskHolder );
+        this.props.navigation.navigate("Home", { taskHolder: this.state.taskHolder, dateArray: this.state.dateArray, priorityArray: this.state.priorityArray, i: this.state.i });
+        this.props.navigation.state.params.getTask( true, this.state.task, this.state.dateArray, this.state.priorityArray, this.state.taskHolder, this.state.i );
+        this.setState({i: this.state.i + 1});
     }
 
 
@@ -91,7 +100,7 @@ _addTask = async () => {
     // console.log(this.state.taskHolder)
     
     
-    i++;
+    // i++;
     // console.log(i);
     // this.props.navigation.navigate('Home', { task: this.state.task, chosenDate: this.state.chosenDate, priority: this.state.priority })
 
@@ -99,7 +108,8 @@ _addTask = async () => {
 
 _setDate = (newDate) => {
     this.setState({ chosenDate: newDate });
-    this.setState({dateArray: [this.state.chosenDate]})
+    // this.setState({dateArray: [this.state.chosenDate]})
+    // this.state.dateArray[i] = this.state.chosenDate;
     
     // console.log(this.state.dateArray);
 
@@ -116,7 +126,7 @@ render() {
                 <Text style={{ fontSize: 50 }}>Add New Task</Text>
                 <TextInput style={{ padding: 20, maxWidth: 280 }} placeholder="enter task details" onChangeText={(text) => this.setState({task: text})}></TextInput>
                 <DatePickerIOS date={this.state.chosenDate} onDateChange={this._setDate} />
-                <Picker slectedValue={this.state.priority} onValueChange={( itemValue ) => this.setState({priority: itemValue})}>
+                <Picker selectedValue={this.state.priority} onValueChange={( itemValue ) => this.setState({priority: itemValue})}>
                     <Picker.Item label={"Low Priority"} value={"low"}></Picker.Item>
                     <Picker.Item label={"High Priority"} value={"high"}></Picker.Item>
                 </Picker>

@@ -8,25 +8,33 @@ import {
     AsyncStorage,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { ListItem } from 'react-native-elements'
+
 
 
 class Main extends Component { 
     constructor(props) {
         super(props);
-       this.state = { createNewTask: null};
+       this.state = { createNewTask: null, data: [], archive: [], j: 0 };
 }
 
 _createTask = () => {
     
-    this.props.navigation.navigate('addTask', { getTask: this._getTask, task: this.state.task, date: this.state.chosenDate, priority: this.state.priority, taskHolder: this.state.taskHolder });
+    this.props.navigation.navigate('addTask', { getTask: this._getTask, task: this.state.task, date: this.state.chosenDate, priority: this.state.priority, taskHolder: this.state.taskHolder,  dateArray: this.state.dateArray, priorityArray: this.state.priorityArray, i: this.state.i });
     
 }
 
-_getTask = (state, task, date, priority, taskArray) => {
+_getTask = (state, task, date, priority, taskArray, length) => {
     // alert(this.state.createNewTask);
     this.setState({ createNewTask: state });
-    this.setState({ taskHolder: taskArray })
-    console.log(this.state.taskHolder);
+    this.setState({ taskHolder: taskArray });
+    this.setState({ priorityArray: priority })
+    this.setState({ dateArray: date });
+    this.setState({ i: length })
+    this.setState({data: {task: this.state.taskHolder, priority: this.state.priorityArray, date: this.state.dateArray}});
+    // console.log(this.state.taskHolder);
+    // console.log(this.state.priorityArray);
+    // console.log(this.state.dateArray);
     // console.log(task);
     // console.log(date);
     // console.log(priority);
@@ -40,52 +48,72 @@ componentDidMount() {
 
     }
     _populateTasks =() => {
-    return (<FlatList
+    return (
+            
+       
+            <FlatList
                 // ItemSeparatorComponent={({highlighted}) => (
                 //     <View style={[style.separator, highlighted && {marginLeft: 0}]} />
                 // )}
                 data={this.state.taskHolder}
                 width='100%'
-                extraData={[this.state.taskHolder]}
-                keyExtractor={(index) => index.toString()}
+                extraData={[this.state.task,this.state.priorityArray,this.state.dateArray]}
+                keyExtractor={(item, index) => index.toString()}
                 ItemSeparatorComponent={this.FlatListItemSeparator}
                 renderItem={({item /*, separators */}) => (
                     
                     <TouchableHighlight
-                    onPress={/*() => this._onPress(item)*/this._deleteItem}
+                    onPress={() => this._deleteItem(item.index)}
                     /*onShowUnderlay={separators.highlight}
                     onHideUnderlay={separators.unhighlight} */>
-                        <View style={{ backgroundColor: "pink", padding: 10 }}>
-                            <Text style={{ fontSize: 30 }}>- {item}</Text>
-                        </View>
-                    </TouchableHighlight>
+                    
+{(this.state.priorityArray[this.props.navigation.state.params.i] == "high") ? <View style={{ backgroundColor: "green", padding: 10 }}>
+                    <Text style={{ fontSize: 30 }}>- {item}</Text>
+                </View> :  <View style={{ backgroundColor: "orange", padding: 10 }}>
+                    <Text style={{ fontSize: 30 }}>- {item}</Text>
+                </View>}
+                    </TouchableHighlight>    
+                    
+                
+                    
                 )}
-                />)
+                />
+            )
         }
 
 }
 
 _viewArchive = () => {
 
-    alert("Not working yet");
+    this.props.navigation.navigate('archive', { archive: this.state.archive });
 
 }
 
-_deleteItem = () => {
+_deleteItem = (item) => {
 
-    alert("Not working yet");
-
+    // const deletedItem = this.state.taskHolder.filter( item => item.id !== id );
+    // // alert("deleted item");
+    // this.setState({ taskHolder: deletedItem })
+    // this.setState({taskHolder: this.state.taskHolder.pop(item)});
+    const archive = this.state.taskHolder.pop(item);
+    this.setState({i: this.state.i - 1});
+    this.state.archive[this.state.j] = archive;
+    this.setState({ j: this.state.j + 1 });
+    console.log(this.state.archive);
+    // console.log(this.state.i);
+    this.setState({taskHolder: this.state.taskHolder});
+    // console.log(this.state.taskHolder);
 }
 
 render() {
     
 
     return (
-        <View style={{ flex: 7, flexDirection: 'column', backgroundColor: 'pink' }}>
+        <View style={{ flex: 10, flexDirection: 'column', backgroundColor: 'pink' }}>
             <View style={{ flex: 1, alignItems: 'center', alignContent: 'center' }}>
                 <Text style={{ fontSize: 50 }}>Your Tasks</Text>
             </View>
-            <View style={{ flex: 5 }}>
+            <View style={{ flex: 8 }}>
             {/* <Text>Where's my button?</Text> */}
            
             { ( this.state.createNewTask ) ?  _populateTasks() : null }
