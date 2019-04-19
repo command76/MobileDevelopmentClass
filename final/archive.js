@@ -10,7 +10,7 @@ import {
 
 export default class archive extends Component {
             FlatListItemSeparator = () => {
-                return ( <View style={{ height: 5, backgroundColor: 'black' }} />)
+                return ( <View style={{ height: 5, backgroundColor: 'pink' }} />)
 
 
             }

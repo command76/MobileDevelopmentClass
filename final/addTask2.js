@@ -15,7 +15,7 @@ import { NavigationActions } from 'react-navigation';
 class createTask extends Component { 
     constructor(props) {
         super(props);
-       this.state = { chosenDate: new Date(), task: "New Task", priority: "high", taskHolder: [], dateArray: [], priorityArray: [], i: 0 };
+       this.state = { chosenDate: new Date(), task: "New Task", priority: "high", dateArray: [], priorityArray: [], i: 0 };
     //    this.taskArr = [];
     //    this.priorityArr = [{ priority: this.state.priority }];
     //    this.dateArr = [{ chosenDate: this.state.chosenDate }]
@@ -54,7 +54,7 @@ _addTask = async () => {
    
 
 
-    this.state.taskHolder[this.state.i] = this.state.task;
+    this.props.navigation.state.params.taskHolder[this.state.i] = this.state.task;
     this.state.priorityArray[this.state.i] = this.state.priority;
     this.state.dateArray[this.state.i] = this.state.chosenDate.toString();
     // console.log(this.state.taskHolder)
@@ -82,20 +82,22 @@ _addTask = async () => {
 //     }
     
     if ( this.props.navigation.state.params.taskHolder != undefined ) {
-        // console.log(this.props.navigation.state.params.taskHolder);
+        console.log(this.props.navigation.state.params.taskHolder);
         // console.log(this.props.navigation.state.params.dateArray);
         // console.log(this.props.navigation.state.params.priorityArray);
-        this.props.navigation.state.params.i = this.props.navigation.state.params.i + 1;
+        // this.props.navigation.state.params.i = this.props.navigation.state.params.i + 1;
         // console.log(this.props.navigation.state.params.i);
         this.props.navigation.state.params.taskHolder[this.props.navigation.state.params.i] = this.state.task;
+        console.log(this.props.navigation.state.params.taskHolder);
         this.props.navigation.state.params.priorityArray[this.props.navigation.state.params.i] = this.state.priority;
         this.props.navigation.state.params.dateArray[this.props.navigation.state.params.i] = this.state.chosenDate;
         this.props.navigation.navigate("Home", { taskHolder: this.state.taskHolder, i: this.state.i, dateArray: this.state.dateArray, priorityArray: this.state.priorityArray });
         this.props.navigation.state.params.getTask( true, this.state.task, this.props.navigation.state.params.dateArray, this.props.navigation.state.params.priorityArray, this.props.navigation.state.params.taskHolder, this.props.navigation.state.params.i );
+        this.props.navigation.state.params.i = this.props.navigation.state.params.i + 1;
 
     } else {
-        this.props.navigation.navigate("Home", { taskHolder: this.state.taskHolder, dateArray: this.state.dateArray, priorityArray: this.state.priorityArray, i: this.state.i });
-        this.props.navigation.state.params.getTask( true, this.state.task, this.state.dateArray, this.state.priorityArray, this.state.taskHolder, this.state.i );
+        this.props.navigation.navigate("Home", { taskHolder: this.props.navigation.state.params.taskHolder, dateArray: this.state.dateArray, priorityArray: this.state.priorityArray, i: this.state.i });
+        this.props.navigation.state.params.getTask( true, this.state.task, this.state.dateArray, this.state.priorityArray, this.props.navigation.state.params.taskHolder, this.state.i );
         this.setState({i: this.state.i + 1});
     }
 

@@ -15,7 +15,7 @@ import { ListItem } from 'react-native-elements'
 class Main extends Component { 
     constructor(props) {
         super(props);
-       this.state = { createNewTask: null, data: [], archive: [], j: 0 };
+       this.state = { createNewTask: null, data: [], taskHolder: [],archive: [], j: 0, i: 0 };
 }
 
 _createTask = () => {
@@ -26,34 +26,6 @@ _createTask = () => {
 
 
 
-
-componentDidUpdate() {
-    _storeTask = async () => {
-        console.log('working');
-        try {
-            await AsyncStorage.setItem('tasks', JSON.stringify(this.state.taskHolder));
-    
-        } catch (error) {
-            alert(error);
-        }
-        try {
-            const tasks = await AsyncStorage.getItem('tasks');
-            if (tasks !== null) {
-                const asyncTask = JSON.parse(tasks);
-                this.state.taskHolder = asyncTask;
-                console.log(this.state.taskHolder)
-                console.log(asyncTask);
-            }} catch (error) {
-                alert(error);
-            
-        }
-
-    }
-   _storeTask();
-    
-}
-
-
 _getTask = async (state, task, date, priority, taskArray, length) => {
     // alert(this.state.createNewTask);
     this.setState({ createNewTask: state });
@@ -62,15 +34,10 @@ _getTask = async (state, task, date, priority, taskArray, length) => {
     this.setState({ priorityArray: priority })
     this.setState({ dateArray: date });
     this.setState({ i: length });
-    // const myJSON = JSON.stringify(this.state.taskHolder);
+    const myJSON = JSON.stringify(this.state.taskHolder);
     // console.log(myJSON);
     
     
-
-
-
-
-
 
     // const tasks = await AsyncStorage.setItem('tasks', this.state.taskHolder);
     // const retrieveTasks = await AsyncStorage.getItem('tasks');
@@ -91,7 +58,6 @@ _getTask = async (state, task, date, priority, taskArray, length) => {
     // console.log(date);
     // console.log(priority);
     // return n = 'yo';
-    // return this.state.taskHolder;
 }
 
 componentDidMount() {
@@ -136,27 +102,16 @@ componentDidMount() {
 
 }
 
-_viewArchive = async () => {
-    
-    if (this.state.archive !== undefined) {
-    try {
-        await AsyncStorage.setItem('archive', JSON.stringify(this.state.archive));
+_viewArchive = () => {
 
-    } catch (error) {
-        alert(error);
-    }
-    try {
-        const archive = await AsyncStorage.getItem('archive');
-        if (archive !== null) {
-            const asyncArchive = JSON.parse(archive);
-            this.state.archive = asyncArchive;
-            console.log(this.state.archive)
-            console.log(asyncArchive);
-        }} catch (error) {
-            alert(error);
-        
-    }
-}
+
+    _storeData = async () => {
+        try {
+          await AsyncStorage.setItem('archive', this.state.archive);
+        } catch (error) {
+          // Error saving data
+        }
+      };
     this.props.navigation.navigate('archive', { archive: this.state.archive });
 
 }
@@ -199,4 +154,4 @@ render() {
 }
 }
 
-export default Main;
+// export default Main;
