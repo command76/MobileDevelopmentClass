@@ -9,6 +9,10 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { ListItem } from 'react-native-elements'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faArchive } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -183,16 +187,16 @@ render() {
     return (
         <View style={{ flex: 10, flexDirection: 'column', backgroundColor: 'pink' }}>
             <View style={{ flex: 1, alignItems: 'center', alignContent: 'center' }}>
-                <Text style={{ fontSize: 50 }}>Your Tasks</Text>
+                <Text style={{ fontSize: 50 }}>Your Tasks <FontAwesomeIcon icon={ faPencilAlt } size={ 50 } /></Text>
             </View>
-            <View style={{ flex: 8 }}>
+            <View style={{ flex: 7 }}>
             {/* <Text>Where's my button?</Text> */}
            
             { ( this.state.createNewTask ) ?  _populateTasks() : null }
             </View>
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                <Button style={{ height: 50, padding: 50 }} onPress={this._createTask} title="Add Task" ></Button>
-                <Button style={{ height: 50, padding: 50 }} onPress={this._viewArchive} title="View Archive" ></Button>
+            <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                <TouchableHighlight style={{ padding: 50 }} onPress={this._createTask}><FontAwesomeIcon icon={ faPlusCircle } size={ 50 } /></TouchableHighlight>
+                <TouchableHighlight style={{ padding: 50 }} onPress={this._viewArchive}><FontAwesomeIcon icon={ faArchive } size={ 50 } /></TouchableHighlight>
             </View>
         </View>
     );

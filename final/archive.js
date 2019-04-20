@@ -7,6 +7,8 @@ import {
     TouchableHighlight,
     AsyncStorage,
 } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faHistory } from '@fortawesome/free-solid-svg-icons';
 
 export default class archive extends Component {
             FlatListItemSeparator = () => {
@@ -19,7 +21,7 @@ export default class archive extends Component {
                 return (
                     <View style={{ flex: 10, flexDirection: 'column', backgroundColor: 'pink' }}>
                         <View style={{ flex: 1, alignItems: 'center', alignContent: 'center' }}>
-                            <Text style={{ fontSize: 50 }}>Archive</Text>
+                            <Text style={{ fontSize: 50 }}>Archive <FontAwesomeIcon icon={ faHistory } size={ 50 } /></Text>
                         </View>
                         <View style={{ flex: 9 }}>                        
                             <FlatList
