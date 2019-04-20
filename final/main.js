@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     Text,
+    StyleSheet,
     Button,
     View,
     FlatList,
@@ -13,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArchive } from '@fortawesome/free-solid-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -33,7 +35,7 @@ _createTask = () => {
 
 componentDidUpdate() {
     _storeTask = async () => {
-        console.log('working');
+        // console.log('working');
         try {
             await AsyncStorage.setItem('tasks', JSON.stringify(this.state.taskHolder));
     
@@ -46,7 +48,7 @@ componentDidUpdate() {
                 const asyncTask = JSON.parse(tasks);
                 this.state.taskHolder = asyncTask;
                 console.log(this.state.taskHolder)
-                console.log(asyncTask);
+                // console.log(asyncTask);
             }} catch (error) {
                 alert(error);
             
@@ -68,7 +70,6 @@ _getTask = async (state, task, date, priority, taskArray, length) => {
     this.setState({ i: length });
     // const myJSON = JSON.stringify(this.state.taskHolder);
     // console.log(myJSON);
-    
     
 
 
@@ -100,7 +101,7 @@ _getTask = async (state, task, date, priority, taskArray, length) => {
 
 componentDidMount() {
     FlatListItemSeparator = () => {
-        return ( <View style={{ height: 5, backgroundColor: 'pink' }} />)
+        return ( <View style={{ height: 5, backgroundColor: '#80E8CE' }} />)
 
 
     }
@@ -124,11 +125,16 @@ componentDidMount() {
                     /*onShowUnderlay={separators.highlight}
                     onHideUnderlay={separators.unhighlight} */>
                     
-{(this.state.priorityArray[this.props.navigation.state.params.i] == "high") ? <View style={{ backgroundColor: "green", padding: 10 }}>
-                    <Text style={{ fontSize: 30 }}>- {item}</Text>
-                </View> :  <View style={{ backgroundColor: "orange", padding: 10 }}>
-                    <Text style={{ fontSize: 30 }}>- {item}</Text>
-                </View>}
+{/* // {(this.state.priorityArray[this.state.i] == "high") ? <View style={() => this._priority} >
+//                     <Text style={{ flex: 4, fontSize: 30 }}>- {item} </Text><FontAwesomeIcon style={{ flex: 1 }} icon={ faMinusCircle } size={ 30 } />
+//                 </View> : <View style={{ flex: 5, flexDirection: 'row', backgroundColor: "orange", padding: 10 }}>
+//                     <Text style={{ flex: 4, fontSize: 30 }}>- {item} </Text><FontAwesomeIcon style={{ flex: 1 }} icon={ faMinusCircle } size={ 30 } />
+//                 </View>} */}
+
+
+                <View style={this._priority(item.index)} >
+                    <Text style={{ flex: 4, fontSize: 30 }}>- {item} </Text><FontAwesomeIcon style={{ flex: 1 }} icon={ faMinusCircle } size={30} />
+                </View> 
                     </TouchableHighlight>    
                     
                 
@@ -137,6 +143,18 @@ componentDidMount() {
                 />
             )
         }
+
+}
+
+_priority = () => {
+
+    if(this.state.priorityArray[this.state.i] == 'high') {
+       
+        return style.highPriority;
+
+    } else {
+        return style.lowPriority;
+    }
 
 }
 
@@ -178,6 +196,7 @@ _deleteItem = (item) => {
     console.log(this.state.archive);
     // console.log(this.state.i);
     this.setState({taskHolder: this.state.taskHolder});
+    // alert('Task Removed!')
     // console.log(this.state.taskHolder);
 }
 
@@ -185,7 +204,7 @@ render() {
     
 
     return (
-        <View style={{ flex: 10, flexDirection: 'column', backgroundColor: 'pink' }}>
+        <View style={{ flex: 10, flexDirection: 'column', backgroundColor: '#80E8CE' }}>
             <View style={{ flex: 1, alignItems: 'center', alignContent: 'center' }}>
                 <Text style={{ fontSize: 50 }}>Your Tasks <FontAwesomeIcon icon={ faPencilAlt } size={ 50 } /></Text>
             </View>
@@ -195,12 +214,27 @@ render() {
             { ( this.state.createNewTask ) ?  _populateTasks() : null }
             </View>
             <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                <TouchableHighlight style={{ padding: 50 }} onPress={this._createTask}><FontAwesomeIcon icon={ faPlusCircle } size={ 50 } /></TouchableHighlight>
-                <TouchableHighlight style={{ padding: 50 }} onPress={this._viewArchive}><FontAwesomeIcon icon={ faArchive } size={ 50 } /></TouchableHighlight>
+                <TouchableHighlight style={{ padding: 50 }} onPress={this._createTask}><Text><FontAwesomeIcon icon={ faPlusCircle } size={ 50 } /></Text></TouchableHighlight>
+                <TouchableHighlight style={{ padding: 50 }} onPress={this._viewArchive}><Text><FontAwesomeIcon icon={ faArchive } size={ 50 } /></Text></TouchableHighlight>
             </View>
         </View>
     );
 }
 }
+
+const style = StyleSheet.create({
+    highPriority: {
+        flex: 5, 
+        flexDirection: 'row', 
+        backgroundColor: "green", 
+        padding: 10
+    },
+    lowPriority: {
+        flex: 5, 
+        flexDirection: 'row', 
+        backgroundColor: "orange", 
+        padding: 10
+    }
+})
 
 export default Main;
